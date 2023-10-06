@@ -1,3 +1,6 @@
+
+let currentIndex = 0;
+
 const slides = [
 	{
 		"image":"slide1.jpg",
@@ -17,14 +20,49 @@ const slides = [
 	}
 ]
 
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
+
+
 // Ajout des Event Listeners //
-let arrow_left = document.querySelector(".arrow_left");
-let arrow_right = document.querySelector(".arrow_right");
 
-arrow_left.addEventListener("click", function() {
-    console.log("Flèche gauche cliquée !");
+arrowLeft.addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  setUrl(currentIndex);
+  updateDots();
 });
 
-arrow_right.addEventListener("click", function() {
-    console.log("Flèche droite cliquée !");
+arrowRight.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % slides.length;  
+  setUrl(currentIndex);
+  updateDots();
 });
+
+// Fonction pour mettre à jour le contenu // 
+const setUrl = (index) => {
+  const { image, tagLine } = slides[index];
+  document.getElementById("carousel-img").src = `./assets/images/slideshow/${image}`;
+  document.getElementById("tagline").innerHTML = tagLine;
+};
+
+const dotsContainer = document.querySelector(".dots");
+const dots = []; 
+
+// Ajout des points de navigation
+slides.forEach((_, index) => {  
+  const dot = document.createElement("div");
+  dot.className = "dot";
+  dotsContainer.appendChild(dot);
+  dots.push(dot); 
+});
+
+// Fonction pour mettre à jour l'état des points 
+function updateDots() {
+  dots.forEach((dot, index) => {
+    if (index === currentIndex) {
+      dot.classList.add("dot_selected");
+    } else {
+      dot.classList.remove("dot_selected");
+    }
+  });
+}
