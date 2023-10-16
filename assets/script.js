@@ -57,12 +57,9 @@ slides.forEach((_, index) => {
 });
 
 // Fonction pour mettre à jour l'état des points 
+
 function updateDots() {
-  dots.forEach((dot, index) => {
-    if (index === currentIndex) {
-      dot.classList.add("dot_selected");
-    } else {
-      dot.classList.remove("dot_selected");
-    }
-  });
-}
+  for (const dot of dots) {
+    dot.classList.toggle("dot_selected", dot === dots[currentIndex]);
+  }
+}   
